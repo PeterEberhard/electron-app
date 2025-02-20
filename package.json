@@ -1,0 +1,15 @@
+{
+  "name": "electron-app",
+  "version": "1.0.0",
+  "description": "testing building an electron app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "peter eberhard",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^34.2.0"
+  }
+}
