@@ -1,25 +1,34 @@
-const { app, BrowserWindow, ipcMain } = require('electron/main')
-const path = require('node:path')
+const { app, BrowserWindow, ipcMain } = require('electron/main');
+const path = require('path');
 
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
+const isMac = process.platform === 'darwin';
+
+const createMainWindow = () => {
+  const mainWindow = new BrowserWindow({
+    title: 'electron-app',
+    width: 1000,
+    height: 700,
+    resizable: false
   })
 
-  win.loadFile('index.html')
+  //mainWindow.loadURL("https://www.youtube.com/watch?v=ML743nrkMHw")
+  mainWindow.loadFile(path.join(__dirname, './renderer/index.html'))
 }
 
 app.whenReady().then(() => {
-  ipcMain.handle('ping', () => 'pong')
-  createWindow()
+  createMainWindow()
+
+  // mac behavior
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow()
+    }
+  })
 })
 
+// non mac behavior
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit()
   }
 })
